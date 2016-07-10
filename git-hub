@@ -1,0 +1,51 @@
+#!/bin/sh
+# git-hub
+# -----------------------
+#
+# @date 2016.7.11
+# @author Luavis
+#
+# @description
+# Clone first argument which automatically concat `http://github.com/`
+# if current directory is not git repository.
+# If not add remote with argument which also concat `http://github.com/`.
+#
+
+
+function github_clone {
+    URL="$1"
+    # if URL is start with http pass it 
+    if [[ $URL != "http://*" ]] && [[ $URL != "https://*" ]] ; then
+        URL="http://github.com/$URL"
+    fi
+
+    git clone "$URL"
+}
+
+
+function github_add_remote {
+    # $1= remote name
+    # $2=url
+    URL="$2"
+    # if URL is start with http pass it 
+    if [[ $URL != "http://*" ]] && [[ $URL != "https://*" ]] ; then
+        URL="http://github.com/$URL"
+    fi
+
+    # add remote with remote name
+    git remote add "$1 $URL"
+}
+
+
+# run status
+git stauts 1>/dev/null 2>/dev/null
+
+# check status code
+if [[ $? == 0 ]]; then
+    # if git status is 0 it mean current directory is git repository
+    github_add_remote $*
+else
+    # if not clone repo from github
+    github_clone $*
+fi
+
