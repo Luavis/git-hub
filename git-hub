@@ -21,7 +21,7 @@ function github_clone {
     fi
     # if URL is start with http pass it 
     if [[ $URL != "http://*" ]] && [[ $URL != "https://*" ]] ; then
-        URL="http://github.com/$URL"
+        URL="https://github.com/$URL"
     fi
 
     git clone "$URL"
@@ -34,11 +34,11 @@ function github_add_remote {
     URL="$2"
     # if URL is start with http pass it 
     if [[ $URL != "http://*" ]] && [[ $URL != "https://*" ]] ; then
-        URL="http://github.com/$URL"
+        URL="https://github.com/$URL"
     fi
 
     # add remote with remote name
-    git remote add "$1 $URL"
+    eval "git remote add $1 $URL"
 }
 
 
